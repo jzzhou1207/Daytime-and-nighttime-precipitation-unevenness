@@ -117,12 +117,12 @@ def read_year_extreme(folder_path,file_prefix,day_var,night_var,number):
     return day_df, night_df
 
 #%%
-nc_precmean = nc.Dataset("/data1/zlzhang/dark_light_pre/annual_pre/annual_precipitation_2001.nc")
+nc_precmean = nc.Dataset("./data/fig1/annual_pre/annual_precipitation_2001.nc")
 lon=nc_precmean.variables['longitude'][:]
 lat=nc_precmean.variables['latitude'][:]
 nc_precmean.close()
 
-region_in = nc.Dataset("/data1/jzzhou/precipitation/season/region.nc")
+region_in = nc.Dataset("./data/fig3/region.nc")
 region = region_in.variables["region2.tif"][::-1,:]
 region_lat = region_in.variables["lat"][:]
 region_lon = region_in.variables["lon"][:]
@@ -130,24 +130,24 @@ region_nan = np.where(region < 0, np.nan, region)
 aa=region_nan + 0 
 
 
-with nc.Dataset("/data1/jzhang/datasets/gpm_3imerghh/0.5hour_direct/yearly/years_01_22.nc", 'r') as ds:
+with nc.Dataset("./data/fig1/years_01_22.nc", 'r') as ds:
     # 获取白天和夜间降水数据
     dayprepyearly = ds.variables["dayprec"][:]
     nightprepyearly = ds.variables["nightprec"][:]
 
-with nc.Dataset("/data1/jzhang/output/landmask_0.1deg.nc", 'r') as ds:
+with nc.Dataset("./data/landmask_0.1deg.nc", 'r') as ds:
     # 获取白天和夜间降水数据
     mask = ds.variables["mask"][:]
 
 
-folder_path = '/data1/jzzhou/precipitation/season/gpm/extreme/d_day/'  # 传入你想读取的文件夹路径
+folder_path = './data/fig4/d_day/'  # 传入你想读取的文件夹路径
 file_prefix = 'concatenated_daily_precipitation_'  # 文件名前缀
 light_var = 'D_daily'  # 白天降水的变量名
 dark_var = 'D_daily_extreme'  # 夜间降水的变量名
 daytime_re_daily_yearly, day_re_extreme_yearly = calculate_annual_precipitation_yearly(folder_path, file_prefix, light_var, dark_var)
 daytime_re_daily_mean, day_re_extreme_mean = calculate_annual_precipitation_mean(folder_path, file_prefix, light_var, dark_var)
 
-folder_path = '/data1/jzzhou/precipitation/season/gpm/extreme/d_night/'  # 传入你想读取的文件夹路径
+folder_path = './data/fig4/d_night/'  # 传入你想读取的文件夹路径
 file_prefix = 'concatenated_daily_precipitation_'  # 文件名前缀
 light_var = 'D_daily'  # 白天降水的变量名
 dark_var = 'D_daily_extreme'  # 夜间降水的变量名
@@ -444,5 +444,5 @@ ax1_bar.text(left, 1.02, 'd',
         size=20,
         weight="bold", 
         transform=ax1_bar.transAxes,clip_on = False) 
-plt.savefig('/share/home/jzzhou1207/data1/jzzhou/precipitation/season/Daytime-and-nighttime-precipitation-unevenness/extreme_fig4/extreme_contributor.png', format='png',dpi=600,bbox_inches='tight')
+plt.savefig('./extreme_fig4/extreme_contributor.png', format='png',dpi=600,bbox_inches='tight')
 

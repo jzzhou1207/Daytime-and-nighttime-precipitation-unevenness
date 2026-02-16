@@ -215,7 +215,7 @@ if __name__ == "__main__":
     # Define input and output directories
     input_dir1 = r"/data1/zlzhang/dark_light_pre/daily_pre/"
     input_dir2 = r"/data1/jzhang/datasets/gpm_3imerghh/0.5hour_direct/prec95_remove0/"
-    output_dir = r"/data1/ZhouJZ/precipitation/season/gpm/extreme/d_day/"
+    output_dir = r"/data1/jzzhou/precipitation/season/gpm/extreme/d_day/"
 
     # Process all files in parallel
     process_files_in_parallel(input_dir1, input_dir2,output_dir, 5)

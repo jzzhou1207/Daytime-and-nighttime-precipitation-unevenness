@@ -1,6 +1,6 @@
 #%%
 # -*- coding: utf-8 -*-
-
+#代码用于对比RE和r/rmax对DSI的贡献
 """
 Created on Sun Jan 28 16:07:50 2024
 
@@ -117,8 +117,8 @@ def read_year_extreme(folder_path,file_prefix,day_var,night_var,number):
     night_df = pd.DataFrame(np.column_stack(yearly_night_data), columns=[f'Night_{year}' for year in years])
     return day_df, night_df
 
-#%% read lon and lat
-nc_precmean = nc.Dataset("/data1/zlzhang/dark_light_pre/annual_pre/annual_precipitation_2001.nc")
+#%%
+nc_precmean = nc.Dataset("./data/fig1/annual_pre/annual_precipitation_2001.nc")
 lon=nc_precmean.variables['longitude'][:]
 lat=nc_precmean.variables['latitude'][:]
 nc_precmean.close()
@@ -127,42 +127,42 @@ nc_precmean.close()
 daymax = 7959.97021484375
 nightmax = 7959.97021484375
 
-with nc.Dataset("/data1/jzhang/datasets/gpm_3imerghh/0.5hour_direct/yearly/years_01_22.nc", 'r') as ds:
+with nc.Dataset("./data/fig1/years_01_22.nc", 'r') as ds:
     # 获取白天和夜间降水数据
     dayprepyearly = ds.variables["dayprec"][:]
     nightprepyearly = ds.variables["nightprec"][:]
 
-with nc.Dataset("/data1/jzhang/output/landmask_0.1deg.nc", 'r') as ds:
+with nc.Dataset("./data/landmask_0.1deg.nc", 'r') as ds:
     # 获取白天和夜间降水数据
     mask = ds.variables["mask"][:]
 
 
-folder_path = '/data1/zlzhang/dark_light_pre/D_index_light/'  # 传入你想读取的文件夹路径
+folder_path = './data/fig1/D_index_light/'  # 传入你想读取的文件夹路径
 file_prefix = 'concatenated_daily_precipitation_'  # 文件名前缀
 light_var = 'D_daily'  # 白天降水的变量名
 dark_var = 'D_monthly'  # 夜间降水的变量名
 daytime_re_daily_yearly, day_re_monthly_yearly = calculate_annual_precipitation_yearly(folder_path, file_prefix, light_var, dark_var)
 
-folder_path = '/data1/zlzhang/dark_light_pre/D_index_night/'  # 传入你想读取的文件夹路径
+folder_path = './data/fig1/D_index_night/'  # 传入你想读取的文件夹路径
 file_prefix = 'concatenated_daily_precipitation_'  # 文件名前缀
 light_var = 'D_daily'  # 白天降水的变量名
 dark_var = 'D_monthly'  # 夜间降水的变量名
 nighttime_re_daily_yearly, night_re_monthly_yearly = calculate_annual_precipitation_yearly(folder_path, file_prefix, light_var, dark_var)
 
 
-folder_path = '/data1/jzzhou/precipitation/season/gpm/dsi_nightmax/'  # 传入你想读取的文件夹路径
+folder_path = './data/fig1/dsi_nightmax/'  # 传入你想读取的文件夹路径
 file_prefix = 'concatenated_daily_precipitation_'  # 文件名前缀
 light_var = 'S_daily'  # 白天降水的变量名
 dark_var = 'S_monthly'  # 夜间降水的变量名
 daytime_dsi_daily_yearly, day_dsi_monthly_yearly = calculate_annual_precipitation_yearly(folder_path, file_prefix, light_var, dark_var)
 
-folder_path = '/data1/zlzhang/dark_light_pre/S_night_index/'  # 传入你想读取的文件夹路径
+folder_path = './data/fig1/S_night_index/'  # 
 file_prefix = 'concatenated_daily_precipitation_'  # 文件名前缀
 light_var = 'S_daily'  # 白天降水的变量名
 dark_var = 'S_monthly'  # 夜间降水的变量名
 nighttime_dsi_daily_yearly, night_dsi_monthly_yearly = calculate_annual_precipitation_yearly(folder_path, file_prefix, light_var, dark_var)
 
-Rday_contributor = np.nanmean(dayprepyearly, axis=0) / daymax # in point [0,700,2026]
+Rday_contributor = np.nanmean(dayprepyearly, axis=0) / daymax # 
 Rnight_contributor = np.nanmean(nightprepyearly, axis=0) / nightmax
 Rday_contributor = Rday_contributor * mask
 Rnight_contributor = Rnight_contributor * mask
@@ -182,7 +182,6 @@ DSIday = DSIday * mask
 DSInight = DSInight * mask
 daytime_dsi_daily_yearly = daytime_dsi_daily_yearly * mask
 nighttime_dsi_daily_yearly = nighttime_dsi_daily_yearly * mask
-
 
 #%%
 #计算相关系数：
@@ -290,26 +289,26 @@ def create_normalized_df(data_array, prefix, years):
 years = range(2001, 2023)  # 假设years是2001-2022
 scaler = StandardScaler()
 #mask pvalue 大于0.05
-mask_pday = p_value_day >= 0.05
-mask_pnight = p_value_night >= 0.05
+#mask_pday = p_value_day >= 0.05
+#mask_pnight = p_value_night >= 0.05
 
 daytime_re_daily_yearly_masked = daytime_re_daily_yearly.copy()
-daytime_re_daily_yearly_masked[:,mask_pday] = np.nan
+#daytime_re_daily_yearly_masked[:,mask_pday] = np.nan
 
 nighttime_re_daily_yearly_masked = nighttime_re_daily_yearly.copy()
-nighttime_re_daily_yearly_masked[:,mask_pnight] = np.nan
+#nighttime_re_daily_yearly_masked[:,mask_pnight] = np.nan
 
 dayprepyearly_masked = dayprepyearly.copy()
-dayprepyearly_masked[:,mask_pday] = np.nan
+#dayprepyearly_masked[:,mask_pday] = np.nan
 
 nightprepyearly_masked = nightprepyearly.copy()
-nightprepyearly_masked[:,mask_pnight] = np.nan
+#nightprepyearly_masked[:,mask_pnight] = np.nan
 
 daytime_dsi_daily_yearly_masked = daytime_dsi_daily_yearly.copy()
-daytime_dsi_daily_yearly_masked[:,mask_pday] = np.nan
+#daytime_dsi_daily_yearly_masked[:,mask_pday] = np.nan
 
 nighttime_dsi_daily_yearly_masked = nighttime_dsi_daily_yearly.copy()
-nighttime_dsi_daily_yearly_masked[:,mask_pnight] = np.nan
+#nighttime_dsi_daily_yearly_masked[:,mask_pnight] = np.nan
 
 # 批量处理所有数据集
 datasets = {
@@ -652,5 +651,5 @@ ax2_night.text(left, top, 'd ',
         size=24,
         weight="bold", 
         transform=ax2_night.transAxes,clip_on = False) 
-plt.savefig('./dsi_re_r_cov_contributor_rmna_spatial_significant.png', format='png',dpi=600,bbox_inches='tight')
+plt.savefig('./pearson_correlation_coefficient_fig2/dsi_re_r_cov_contributor_rmna_spatial_significant.png', format='png',dpi=600,bbox_inches='tight')
 # %%

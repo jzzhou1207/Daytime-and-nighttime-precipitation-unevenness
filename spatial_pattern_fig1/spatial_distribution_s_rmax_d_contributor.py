@@ -112,52 +112,46 @@ def read_year_extreme(folder_path,file_prefix,day_var,night_var,number):
     return day_df, night_df
 
 #%%
-nc_precmean = nc.Dataset("/data1/zlzhang/dark_light_pre/annual_pre/annual_precipitation_2001.nc")
+nc_precmean = nc.Dataset("./data/fig1/annual_pre/annual_precipitation_2001.nc")
 lon=nc_precmean.variables['longitude'][:]
 lat=nc_precmean.variables['latitude'][:]
 nc_precmean.close()
-folder_path = '/data1/zlzhang/dark_light_pre/annual_pre/'  # 传入你想读取的文件夹路径
+folder_path = './data/fig1/annual_pre/'  # 传入你想读取的文件夹路径
 file_prefix = 'annual_precipitation_'  # 文件名前缀
 light_var = 'annualLightPrecipitation'  # 白天降水的变量名
 dark_var = 'annualDarkPrecipitation'  # 夜间降水的变量名
 dayprepmean, nightprepmean = calculate_annual_precipitation_mean(folder_path, file_prefix, light_var, dark_var)
 mask = np.where(np.isnan(dayprepmean), dayprepmean, 1)
 
-region_in = nc.Dataset("/data1/ZhouJZ/precipitation/season/region.nc")
-region = region_in.variables["region2.tif"][::-1,:]
-region_lat = region_in.variables["lat"][:]
-region_lon = region_in.variables["lon"][:]
-region_nan = np.where(region < 0, np.nan, region)
-aa=region_nan + 0 
 daymax =  7959.97021484375 #与夜间使用统一标准5748.13623046875
 nightmax = 7959.97021484375
 
-with nc.Dataset("/data1/jzhang/datasets/gpm_3imerghh/0.5hour_direct/yearly/years_01_22.nc", 'r') as ds:
+with nc.Dataset("./data/fig1/years_01_22.nc", 'r') as ds:
     # 获取白天和夜间降水数据
     dayprepyearly = ds.variables["dayprec"][:]
     nightprepyearly = ds.variables["nightprec"][:]
 
 
-folder_path = '/data1/zlzhang/dark_light_pre/D_index_light/'  # 传入你想读取的文件夹路径
+folder_path = './data/fig1/D_index_light/'  # 传入你想读取的文件夹路径
 file_prefix = 'concatenated_daily_precipitation_'  # 文件名前缀
 light_var = 'D_daily'  # 白天降水的变量名
 dark_var = 'D_monthly'  # 夜间降水的变量名
 daytime_re_daily_yearly, day_re_monthly_yearly = calculate_annual_precipitation_yearly(folder_path, file_prefix, light_var, dark_var)
 
-folder_path = '/data1/zlzhang/dark_light_pre/D_index_night/'  # 传入你想读取的文件夹路径
+folder_path = './data/fig1/D_index_night/'  # 传入你想读取的文件夹路径
 file_prefix = 'concatenated_daily_precipitation_'  # 文件名前缀
 light_var = 'D_daily'  # 白天降水的变量名
 dark_var = 'D_monthly'  # 夜间降水的变量名
 nighttime_re_daily_yearly, night_re_monthly_yearly = calculate_annual_precipitation_yearly(folder_path, file_prefix, light_var, dark_var)
 
 
-folder_path = '/data1/ZhouJZ/precipitation/season/gpm/dsi_nightmax/'  # 传入你想读取的文件夹路径
+folder_path = './data/fig1/dsi_nightmax/'  # 传入你想读取的文件夹路径
 file_prefix = 'concatenated_daily_precipitation_'  # 文件名前缀
 light_var = 'S_daily'  # 白天降水的变量名
 dark_var = 'S_monthly'  # 夜间降水的变量名
 daytime_dsi_daily_yearly, day_dsi_monthly_yearly = calculate_annual_precipitation_yearly(folder_path, file_prefix, light_var, dark_var)
 
-folder_path = '/data1/zlzhang/dark_light_pre/S_night_index/'  # 传入你想读取的文件夹路径
+folder_path = './data/fig1/S_night_index/'  # 传入你想读取的文件夹路径
 file_prefix = 'concatenated_daily_precipitation_'  # 文件名前缀
 light_var = 'S_daily'  # 白天降水的变量名
 dark_var = 'S_monthly'  # 夜间降水的变量名
@@ -432,5 +426,5 @@ ax6.set_yticks(np.arange(region[-2], region[-1] + 1, 30), crs = proj)
 ax6.xaxis.set_major_formatter(LongitudeFormatter())
 ax6.set_xlabel(""); ax6.set_ylabel("")
 ax6.set_yticklabels([]) 
-plt.savefig('/data1/ZhouJZ/precipitation/season/gpm/spatial_pattern/dsi_re_daynight.png', format='png',dpi=600,bbox_inches='tight')
+plt.savefig('./spatial_pattern_fig1/dsi_re_daynight.png', format='png',dpi=600,bbox_inches='tight')
 # %%

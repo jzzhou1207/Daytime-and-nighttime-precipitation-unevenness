@@ -91,30 +91,30 @@ def calculate_annual_precipitation_mean2(folder_path,file_prefix,daily_var,light
     
     return dailymean,daymean, nightmean
 #%%
-region_in = nc.Dataset("/data1/ZhouJZ/precipitation/season/region.nc")
+region_in = nc.Dataset("./data/fig3/region.nc")
 region = region_in.variables["region2.tif"][::-1,:]
 region_lat = region_in.variables["lat"][:]
 region_lon = region_in.variables["lon"][:]
 
-folder_path = '/data1/zlzhang/dark_light_pre/D_index_light/'  # 传入你想读取的文件夹路径
+folder_path = './data/fig1/D_index_light/'  # 传入你想读取的文件夹路径
 file_prefix = 'concatenated_daily_precipitation_'  # 文件名前缀
 light_var = 'D_daily'  # 白天降水的变量名
 dark_var = 'D_monthly'  # 夜间降水的变量名
 day_s_daily_mean2, day_s_monthly_mean2 = calculate_annual_precipitation_mean(folder_path, file_prefix, light_var, dark_var)
 
-folder_path = '/data1/zlzhang/dark_light_pre/D_index_night/'  # 传入你想读取的文件夹路径
+folder_path = './data/fig1/D_index_night/'  # 传入你想读取的文件夹路径
 file_prefix = 'concatenated_daily_precipitation_'  # 文件名前缀
 light_var = 'D_daily'  # 白天降水的变量名
 dark_var = 'D_monthly'  # 夜间降水的变量名
 night_s_daily_mean2, night_s_monthly_mean2 = calculate_annual_precipitation_mean(folder_path, file_prefix, light_var, dark_var)
 
-folder_path = '/data1/ZhouJZ/precipitation/season/gpm/dsi_nightmax/'  # 传入你想读取的文件夹路径
+folder_path = './data/fig1/dsi_nightmax/'  # 传入你想读取的文件夹路径
 file_prefix = 'concatenated_daily_precipitation_'  # 文件名前缀
 light_var = 'S_daily'  # 白天降水的变量名
 dark_var = 'S_monthly'  # 夜间降水的变量名
 day_dsi_daily_mean2, day_dsi_monthly_mean2 = calculate_annual_precipitation_mean(folder_path, file_prefix, light_var, dark_var)
 
-folder_path = '/data1/zlzhang/dark_light_pre/S_night_index/'  # 传入你想读取的文件夹路径
+folder_path = './data/fig1/S_night_index/'  # 传入你想读取的文件夹路径
 file_prefix = 'concatenated_daily_precipitation_'  # 文件名前缀
 light_var = 'S_daily'  # 白天降水的变量名
 dark_var = 'S_monthly'  # 夜间降水的变量名

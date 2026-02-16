@@ -92,30 +92,30 @@ def calculate_annual_precipitation_mean2(folder_path,file_prefix,daily_var,light
     
     return dailymean,daymean, nightmean
 #%%
-region_in = nc.Dataset("/data1/ZhouJZ/precipitation/season/region.nc")
+region_in = nc.Dataset("./data/fig3/region.nc")
 region = region_in.variables["region2.tif"][::-1,:]
 region_lat = region_in.variables["lat"][:]
 region_lon = region_in.variables["lon"][:]
 
-folder_path = '/data1/zlzhang/dark_light_pre/D_index_light/'  # 传入你想读取的文件夹路径
+folder_path = './data/fig1/D_index_light/'  # 传入你想读取的文件夹路径
 file_prefix = 'concatenated_daily_precipitation_'  # 文件名前缀
 light_var = 'D_daily'  # 白天降水的变量名
 dark_var = 'D_monthly'  # 夜间降水的变量名
 day_s_daily_mean2, day_s_monthly_mean2 = calculate_annual_precipitation_mean(folder_path, file_prefix, light_var, dark_var)
 
-folder_path = '/data1/zlzhang/dark_light_pre/D_index_night/'  # 传入你想读取的文件夹路径
+folder_path = './data/fig1/D_index_night/'  # 传入你想读取的文件夹路径
 file_prefix = 'concatenated_daily_precipitation_'  # 文件名前缀
 light_var = 'D_daily'  # 白天降水的变量名
 dark_var = 'D_monthly'  # 夜间降水的变量名
 night_s_daily_mean2, night_s_monthly_mean2 = calculate_annual_precipitation_mean(folder_path, file_prefix, light_var, dark_var)
 
-folder_path = '/data1/ZhouJZ/precipitation/season/gpm/dsi_nightmax/'  # 传入你想读取的文件夹路径
+folder_path = './data/fig1/dsi_nightmax/'  # 传入你想读取的文件夹路径
 file_prefix = 'concatenated_daily_precipitation_'  # 文件名前缀
 light_var = 'S_daily'  # 白天降水的变量名
 dark_var = 'S_monthly'  # 夜间降水的变量名
 day_dsi_daily_mean2, day_dsi_monthly_mean2 = calculate_annual_precipitation_mean(folder_path, file_prefix, light_var, dark_var)
 
-folder_path = '/data1/zlzhang/dark_light_pre/S_night_index/'  # 传入你想读取的文件夹路径
+folder_path = './data/fig1/S_night_index/'  # 传入你想读取的文件夹路径
 file_prefix = 'concatenated_daily_precipitation_'  # 文件名前缀
 light_var = 'S_daily'  # 白天降水的变量名
 dark_var = 'S_monthly'  # 夜间降水的变量名
@@ -123,7 +123,7 @@ night_dsi_daily_mean2, night_dsi_monthly_mean2 = calculate_annual_precipitation_
 
 
 
-nc_precmean = nc.Dataset("/data1/jzhang/datasets/gpm_3imerghh/0.5hour_direct/modify_index/prec_summary_index_2001_2022_0.1deg_modify.nc")
+nc_precmean = nc.Dataset("./data/fig3/prec_summary_index_2001_2022_0.1deg_modify.nc")
 lon=nc_precmean.variables['longitude'][:]
 lat=nc_precmean.variables['latitude'][:]
 nc_precmean.close()
@@ -254,12 +254,12 @@ def calculate_annual_precipitation_mean(folder_path,file_prefix,light_var, dark_
         nightmean_var.units = 'mm/day'  # 示例单位
 
     print(f"文件已保存: {output_file}")
-nc_in = nc.Dataset("/data1/ZhouJZ/precipitation/season/gpm/daily_prec/daily_average.nc")
+nc_in = nc.Dataset("./data/fig3/daily_average.nc")
 d_daily = nc_in.variables["lightDailyPrecipRate"][:]
 n_daily = nc_in.variables["darkDailyPrecipRate"][:]
 nc_in.close()
 
-region_in = nc.Dataset("/data1/ZhouJZ/precipitation/season/region.nc")
+region_in = nc.Dataset("./data/fig3/region.nc")
 region = region_in.variables["region2.tif"][::-1,:]
 region_lat = region_in.variables["lat"][:]
 region_lon = region_in.variables["lon"][:]
@@ -350,6 +350,6 @@ ax3.tick_params(axis='y', labelsize=14)
 #ax3.set_ylim(0,100)
 #ax3.axhline(y=50, color='lightgray', linestyle='--', linewidth=2)
 
-plt.savefig('./dsi_re_region_realdsi_re2.png', format='png',dpi=600,bbox_inches='tight')
+plt.savefig('./region_fig3/dsi_re_region_realdsi_re.png', format='png',dpi=600,bbox_inches='tight')
 
 # %%
